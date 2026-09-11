@@ -81,7 +81,7 @@
 </style>
 </head>
 <body>
-<h1>Piano School</h1>
+<h1>PIANO SCHOOL</h1>
 <p class="subtitle">흠 일단 테스트 컴퓨터로 보는 것을 권장합니다.</p>
 <div class="controls">
   <div class="search-wrap">
@@ -99,15 +99,15 @@
 
 <script>
 const SCHOOLS={
-  liszt:{name:"Liszt lineage",c:"#7F77DD",bg:"#EEEDFE",t:"#3C3489"},
-  moscow:{name:"Moscow school",c:"#1D9E75",bg:"#E1F5EE",t:"#085041"},
-  petersburg:{name:"St. Petersburg",c:"#378ADD",bg:"#E6F1FB",t:"#0C447C"},
-  french:{name:"French school",c:"#D85A30",bg:"#FAECE7",t:"#712B13"},
-  german:{name:"German-Austrian",c:"#BA7517",bg:"#FAEEDA",t:"#633806"},
-  hungarian:{name:"Hungarian school",c:"#D4537E",bg:"#FBEAF0",t:"#72243E"},
-  leschetizky:{name:"Leschetizky lineage",c:"#639922",bg:"#EAF3DE",t:"#27500A"},
-  italian:{name:"Italian school",c:"#5B8FB9",bg:"#E4EEF6",t:"#274B6A"},
-  independent:{name:"Independent",c:"#72777d",bg:"#f8f9fa",t:"#202122"},
+  liszt:{name:"Liszt lineage",c:"#8B7BA5"},        
+  moscow:{name:"Moscow School",c:"#5A8A6A"},        
+  petersburg:{name:"St. Petersburg",c:"#4D8B87"},   
+  french:{name:"French School",c:"#C4605A"},        
+  german:{name:"German-Austrian",c:"#BFA041"},      
+  hungarian:{name:"Hungarian School",c:"#B87080"},  
+  leschetizky:{name:"Leschetizky lineage",c:"#7B8B3A"}, 
+  italian:{name:"Italian School",c:"#6B8BB5"},      
+  independent:{name:"Independent",c:"#8B8578"},     
 };
 
 const P=[
@@ -154,7 +154,7 @@ const P=[
 ["ashkenazy","Ashkenazy","Vladimir Ashkenazy",1937,null,"moscow","Pianist / conductor","Pupil of Oborin; definitive Rachmaninoff interpreter","Vladimir_Ashkenazy"],
 ["pletnev","Pletnev","Mikhail Pletnev",1957,null,"moscow","Pianist / conductor","Pupil of Flier; 1978 Tchaikovsky Competition winner","Mikhail_Pletnev"],
 ["sultanov","Sultanov","Alexei Sultanov",1969,2005,"moscow","Pianist","Pupil of Naumov; 1989 Cliburn Competition winner","Alexei_Sultanov"],
-["lupu","Lupu","Radu Lupu",1945,2022,"moscow","Pianist","Studied with S. Neuhaus; poet of the keyboard","Radu_Lupu"],
+["lupu","Lupu","Radu Lupu",1945,2022,"moscow","Pianist","<a href='https://music.apple.com/us/album/brahms-piano-pieces-opp-117-118-119/1452147359'>Brahms: Piano Pieces</a>","Radu_Lupu"],
 ["kissin","Kissin","Evgeny Kissin",1971,null,"moscow","Pianist","Prodigy from the Gnessin School; Chopin and Romantic repertoire","Evgeny_Kissin"],
 ["babayan","Babayan","Sergei Babayan",1961,null,"moscow","Pianist / pedagogue","Studied with Naumov; teacher of Trifonov","Sergei_Babayan"],
 ["trifonov","Trifonov","Daniil Trifonov",1991,null,"moscow","Pianist","Pupil of Babayan; leading pianist of the new generation","Daniil_Trifonov"],
@@ -230,7 +230,7 @@ const EDGES=[
 ["h_neuhaus","richter"],["h_neuhaus","gilels"],["h_neuhaus","s_neuhaus"],["h_neuhaus","zhukov"],["h_neuhaus","naumov"],
 ["naumov","sultanov"],["naumov","babayan"],
 ["babayan","trifonov"],
-["oborin","ashkenazy"],["flier","pletnev"],["s_neuhaus","lupu"],
+["oborin","ashkenazy"],["flier","pletnev"],["h_neuhaus","lupu"],
 ["leschetizky","friedman"],["leschetizky","moiseiwitsch"],["leschetizky","schnabel"],
 ["leschetizky","paderewski"],["leschetizky","gabrilowitsch"],["leschetizky","horszowski"],
 ["mikuli","h_mother"],["h_mother","horszowski"],
@@ -251,12 +251,12 @@ const EDGES=[
 ];
 
 const ERAS=[
-["Classical / early Romantic",[1770,1830]],
-["Romantic masters",[1830,1870]],
-["Turn of the century",[1870,1900]],
-["Golden Age I",[1900,1920]],
-["Golden Age II",[1920,1945]],
-["Modern era",[1945,2000]],
+["1770",[1770,1830]],
+["1830",[1830,1870]],
+["1870",[1870,1900]],
+["1900",[1900,1920]],
+["1920",[1920,1945]],
+["1945",[1945,2000]],
 ];
 
 const pianists={};
@@ -311,7 +311,7 @@ function render(){
   ERAS.forEach((era,i)=>{
     const y=58+i*rowH;
     h+=`<line x1="10" y1="${y-22}" x2="${W-10}" y2="${y-22}" stroke="#a2a9b1" stroke-width="0.5" stroke-dasharray="4 4"/>`;
-    h+=`<text x="12" y="${y-8}" font-size="11" fill="#54595d" font-weight="bold" font-family="Helvetica Neue,Helvetica,Arial,sans-serif">${era[0]}</text>`;
+    h+=`<text x="12" y="${y-8}" font-size="11" fill="#000" font-weight="bold" font-family="Helvetica Neue,Helvetica,Arial,sans-serif">${era[0]}</text>`;
   });
 
   EDGES.forEach(e=>{
