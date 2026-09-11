@@ -193,11 +193,15 @@ const P=[
 ["moiseiwitsch","Moiseiwitsch","Benno Moiseiwitsch",1890,1963,"leschetizky","Pianist","Pupil of Leschetizky; renowned Rachmaninoff interpreter","Benno_Moiseiwitsch"],
 ["paderewski","Paderewski","Ignacy Jan Paderewski",1860,1941,"leschetizky","Pianist / statesman","Pupil of Leschetizky; also served as Prime Minister of Poland","Ignacy_Jan_Paderewski"],
 ["gabrilowitsch","Gabrilowitsch","Ossip Gabrilowitsch",1878,1936,"leschetizky","Pianist / conductor","Pupil of Leschetizky; conductor of the Detroit Symphony","Ossip_Gabrilowitsch"],
+["h_mother","Horszowski Mom","Janina Roza Horszowska",1865,1920,"leschetizky","Pedagogue","Pupil of Mikuli; first piano teacher of her son",""],
 ["horszowski","Horszowski","Mieczysław Horszowski",1892,1993,"leschetizky","Pianist","Pupil of Leschetizky; performed publicly for over 80 years","Mieczysław_Horszowski"],
-
+["perahia","Perahia","Murray Perahia",1947,null,"leschetizky","Pianist","Pupil of Horszowski at Curtis; renowned for Bach, Mozart, Beethoven","Murray_Perahia"],
+["p_serkin","P. Serkin","Peter Serkin",1947,2020,"leschetizky","Pianist","Pupil of Horszowski at Curtis; son of Rudolf Serkin","Peter_Serkin"],
+  
 // === HUNGARIAN ===
 ["dohnanyi","Dohnányi","Ernő Dohnányi",1877,1960,"hungarian","Composer / pianist","Pupil of Thomán (Liszt line); pillar of Hungarian music","Ernst_von_Dohnányi"],
 ["kadosa","Kadosa","Pál Kadosa",1903,1983,"hungarian","Composer / pedagogue","Liszt Academy professor, teacher of Schiff","Pál_Kadosa"],
+["nyiregyhazi","Nyiregyházi","Ervin Nyiregyházi",1903,1987,"hungarian","Pianist","Pupil of Dohnányi; legendary prodigy","Ervin_Nyiregyházi"],
 ["cziffra","Cziffra","Georges Cziffra",1921,1994,"hungarian","Pianist","Studied with Dohnányi; legendary Liszt performer","Georges_Cziffra"],
 ["anda","Anda","Géza Anda",1921,1976,"hungarian","Pianist","Studied with Dohnányi and Fischer; Mozart and Bartók master","Géza_Anda"],
 ["schiff","Schiff","András Schiff",1953,null,"hungarian","Pianist","Pupil of Kadosa at Liszt Academy; Bach and Beethoven authority","András_Schiff"],
@@ -258,7 +262,9 @@ const EDGES=[
 // St. Petersburg
 ["a_rubinstein","hofmann"],["hofmann","cherkassky"],
 // Independent
-["guerrero","gould"],
+["guerrero","gould"], ["mikuli","h_mother"],["h_mother","horszowski"],
+["horszowski","perahia"],["horszowski","p_serkin"],
+["dohnanyi","nyiregyhazi"],
 ];
 
 const ERAS=[
