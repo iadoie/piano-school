@@ -4,87 +4,97 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Piano School</title>
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Franz_Liszt_1858.jpg/100px-Franz_Liszt_1858.jpg" type="image/jpeg">
 <style>
-  :root {
-    --bg: #ffffff; --bg2: #f7f7f5; --bg3: #efeeeb;
-    --text: #1a1a1a; --text2: #6b6b68; --text3: #9c9a92;
-    --border: #dddcd7;
-    --font: system-ui, -apple-system, "Segoe UI", sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1a1a1a; --bg2: #232322; --bg3: #2c2c2a;
-      --text: #e8e6df; --text2: #9c9a92; --text3: #6b6b68;
-      --border: #3d3d3a;
-    }
-  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 24px 16px; max-width: 780px; margin: 0 auto; }
-  h1 { font-size: 20px; font-weight: 500; margin-bottom: 16px; }
-  .search-wrap { position: relative; margin-bottom: 12px; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #fff; color: #000;
+    padding: 20px 24px; max-width: 1400px; margin: 0 auto;
+  }
+  h1 {
+    font-family: "Linux Libertine", "Georgia", "Times New Roman", serif;
+    font-size: 28px; font-weight: normal; margin-bottom: 4px;
+    border-bottom: 1px solid #a2a9b1; padding-bottom: 4px;
+  }
+  .subtitle { font-size: 12px; color: #54595d; margin-bottom: 16px; }
+  .search-wrap { position: relative; margin-bottom: 10px; display: inline-block; }
   .search-wrap input {
-    width: 100%; padding: 8px 12px 8px 34px; font-size: 14px;
-    border: 0.5px solid var(--border); border-radius: 8px;
-    background: var(--bg); color: var(--text); outline: none; font-family: var(--font);
+    padding: 4px 8px 4px 26px; font-size: 13px;
+    border: 1px solid #a2a9b1; background: #fff; color: #000;
+    font-family: inherit; width: 220px;
   }
-  .search-wrap input:focus { border-color: var(--text3); }
-  .search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); }
-  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .search-wrap svg { position: absolute; left: 6px; top: 50%; transform: translateY(-50%); }
+  .controls { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .badges { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
   .badge {
-    font-size: 11px; padding: 3px 9px; border-radius: 12px;
-    cursor: pointer; font-weight: 500; user-select: none;
-    border: 1.5px solid transparent; transition: border-color 0.15s;
+    font-size: 11px; padding: 2px 8px;
+    cursor: pointer; font-weight: normal; user-select: none;
+    border: 1px solid #a2a9b1; background: #f8f9fa; color: #000;
+    transition: background 0.1s;
   }
-  .badge.active { border-color: currentColor; }
+  .badge:hover { background: #eaecf0; }
+  .badge.active { border-color: #000; font-weight: bold; }
+  .clear-btn {
+    font-size: 11px; padding: 2px 8px;
+    border: 1px solid #a2a9b1; background: #f8f9fa;
+    color: #54595d; cursor: pointer; font-family: inherit;
+    display: none;
+  }
+  .clear-btn.show { display: inline-block; }
   .chart-wrap {
-    overflow-x: auto; border: 0.5px solid var(--border);
-    border-radius: 12px; background: var(--bg2); padding: 12px 8px;
+    overflow-x: auto; border: 1px solid #a2a9b1;
+    background: #fff; padding: 10px 6px; margin-bottom: 16px;
   }
-  .chart-wrap svg { display: block; min-width: 680px; }
+  .chart-wrap svg { display: block; }
   .info-panel {
-    margin-top: 14px; padding: 14px 18px;
-    background: var(--bg); border: 0.5px solid var(--border);
-    border-radius: 12px; display: none;
+    margin-bottom: 16px; padding: 10px 14px;
+    border: 1px solid #a2a9b1; background: #f8f9fa;
+    display: none;
   }
   .info-panel.show { display: block; }
-  .info-top { display: flex; gap: 14px; align-items: flex-start; }
+  .info-top { display: flex; gap: 12px; align-items: flex-start; }
   .info-photo {
-    width: 72px; height: 72px; border-radius: 10px; object-fit: cover;
-    background: var(--bg3); flex-shrink: 0; display: none;
+    width: 64px; height: 64px; object-fit: cover;
+    background: #eaecf0; flex-shrink: 0; display: none; border: 1px solid #a2a9b1;
   }
   .info-photo.loaded { display: block; }
   .info-body { flex: 1; min-width: 0; }
-  .info-name { font-size: 17px; font-weight: 500; }
-  .info-badge-s { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; margin-left: 8px; vertical-align: 2px; display: inline-block; }
-  .info-meta { font-size: 13px; color: var(--text2); margin: 4px 0 8px; }
-  .info-note { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
-  .info-links { font-size: 13px; display: flex; gap: 20px; flex-wrap: wrap; }
-  .info-links span.lb { color: var(--text3); margin-right: 4px; }
-  .info-links span.lk { cursor: pointer; font-weight: 500; margin-right: 6px; }
-  .info-links span.lk:hover { text-decoration: underline; }
-  .clear-btn {
-    font-size: 12px; padding: 4px 10px; border-radius: 6px;
-    border: 0.5px solid var(--border); background: var(--bg);
-    color: var(--text2); cursor: pointer; font-family: var(--font);
-    position: absolute; right: 8px; top: 50%; transform: translateY(-50%); display: none;
+  .info-name { font-size: 16px; font-weight: bold; }
+  .info-badge-s {
+    font-size: 10px; padding: 1px 6px; font-weight: bold;
+    margin-left: 6px; vertical-align: 2px; display: inline-block;
+    border: 1px solid;
   }
-  .clear-btn.show { display: inline-block; }
+  .info-meta { font-size: 12px; color: #54595d; margin: 2px 0 6px; }
+  .info-note { font-size: 13px; line-height: 1.5; margin-bottom: 6px; }
+  .info-links { font-size: 12px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .info-links span.lb { color: #54595d; margin-right: 2px; }
+  .info-links span.lk { cursor: pointer; font-weight: bold; margin-right: 4px; }
+  .info-links span.lk:hover { text-decoration: underline; }
+  footer {
+    border: 1px solid #a2a9b1; background: #f8f9fa;
+    padding: 8px 14px; font-size: 12px; color: #54595d;
+    margin-top: 8px;
+  }
+  footer a { color: #0645ad; }
 </style>
 </head>
 <body>
 <h1>Piano School</h1>
-<div class="search-wrap">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-  <input type="text" id="search" placeholder="Search pianists..." autocomplete="off">
+<p class="subtitle">흠 일단 테스트 컴퓨터로 보는 것을 권장합니다.</p>
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#54595d" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="search" placeholder="Search..." autocomplete="off">
+  </div>
+  <div class="badges" id="badges"></div>
   <button class="clear-btn" id="clearBtn" onclick="clearAll()">✕ Clear</button>
 </div>
-<div class="badges" id="badges"></div>
-<div class="chart-wrap"><svg id="chart" width="100%"></svg></div>
+<div class="chart-wrap"><svg id="chart"></svg></div>
 <div class="info-panel" id="info"></div>
-
 <footer>
-    For corrections or suggestions, please send an
-    <a href="mailto:bocsosu@gmail.com">email</a>.
+  For corrections or suggestions, please send an <a href="mailto:bocsosu@gmail.com">email</a>.
 </footer>
 
 <script>
@@ -97,19 +107,16 @@ const SCHOOLS={
   hungarian:{name:"Hungarian school",c:"#D4537E",bg:"#FBEAF0",t:"#72243E"},
   leschetizky:{name:"Leschetizky lineage",c:"#639922",bg:"#EAF3DE",t:"#27500A"},
   italian:{name:"Italian school",c:"#5B8FB9",bg:"#E4EEF6",t:"#274B6A"},
-  independent:{name:"Independent",c:"#888780",bg:"#F1EFE8",t:"#444441"},
+  independent:{name:"Independent",c:"#72777d",bg:"#f8f9fa",t:"#202122"},
 };
 
 const P=[
-// === ROOTS ===
 ["beethoven","Beethoven","Ludwig van Beethoven",1770,1827,"german","Composer / pianist","Master of the Viennese Classical era","Ludwig_van_Beethoven"],
 ["czerny","Czerny","Carl Czerny",1791,1857,"german","Pedagogue / composer","Pupil of Beethoven, teacher of Liszt and Leschetizky","Carl_Czerny"],
 ["chopin","Chopin","Frédéric Chopin",1810,1849,"french","Composer / pianist","The poet of the piano","Frédéric_Chopin"],
 ["liszt","Liszt","Franz Liszt",1811,1886,"liszt","Composer / pianist","One of the greatest virtuosos in history","Franz_Liszt"],
 ["leschetizky","Leschetizky","Theodor Leschetizky",1830,1915,"leschetizky","Pedagogue","Founder of the Leschetizky method; studied with Czerny","Theodor_Leschetizky"],
 ["a_rubinstein","A. Rubinstein","Anton Rubinstein",1829,1894,"petersburg","Composer / pianist","Founded the St. Petersburg Conservatory","Anton_Rubinstein"],
-
-// === LISZT LINEAGE ===
 ["mikuli","Mikuli","Karol Mikuli",1821,1897,"liszt","Pedagogue","Pupil of Chopin","Karol_Mikuli"],
 ["siloti","Siloti","Alexander Siloti",1863,1945,"liszt","Pianist / pedagogue","One of Liszt's last pupils","Alexander_Siloti"],
 ["krause","Krause","Martin Krause",1853,1918,"liszt","Pedagogue","Liszt pupil, teacher of Arrau","Martin_Krause_(musician)"],
@@ -125,8 +132,6 @@ const P=[
 ["kempff","Kempff","Wilhelm Kempff",1895,1991,"liszt","Pianist","Pupil of Barth; Beethoven and Schubert master","Wilhelm_Kempff"],
 ["pogorelich","Pogorelich","Ivo Pogorelich",1958,null,"liszt","Pianist","Pupil of Kezeradze; 1980 Chopin Competition scandal","Ivo_Pogorelich"],
 ["villa","Villa","Joseph Villa",1948,1995,"liszt","Pianist","Studied privately with Arrau",""],
-
-// === MOSCOW SCHOOL ===
 ["safonov","Safonov","Vasily Safonov",1852,1918,"moscow","Pedagogue / conductor","Director of the Moscow Conservatory","Vasily_Safonov"],
 ["goldenweiser","Goldenweiser","Alexander Goldenweiser",1875,1961,"moscow","Pedagogue","Professor at the Moscow Conservatory","Alexander_Goldenweiser"],
 ["igumnov","Igumnov","Konstantin Igumnov",1873,1948,"moscow","Pedagogue","Professor at the Moscow Conservatory","Konstantin_Igumnov"],
@@ -153,8 +158,6 @@ const P=[
 ["kissin","Kissin","Evgeny Kissin",1971,null,"moscow","Pianist","Prodigy from the Gnessin School; Chopin and Romantic repertoire","Evgeny_Kissin"],
 ["babayan","Babayan","Sergei Babayan",1961,null,"moscow","Pianist / pedagogue","Studied with Naumov; teacher of Trifonov","Sergei_Babayan"],
 ["trifonov","Trifonov","Daniil Trifonov",1991,null,"moscow","Pianist","Pupil of Babayan; leading pianist of the new generation","Daniil_Trifonov"],
-
-// === ST. PETERSBURG ===
 ["blumenfeld","Blumenfeld","Felix Blumenfeld",1863,1931,"petersburg","Pedagogue / conductor","Teacher of Horowitz","Felix_Blumenfeld"],
 ["nikolaev","Nikolaev","Leonid Nikolaev",1878,1942,"petersburg","Pedagogue","Pillar of the Leningrad Conservatory","Leonid_Nikolaev_(composer)"],
 ["hofmann","Hofmann","Josef Hofmann",1876,1957,"petersburg","Pianist","Pupil of A. Rubinstein; head of Curtis","Josef_Hofmann"],
@@ -163,8 +166,6 @@ const P=[
 ["yudina","Yudina","Maria Yudina",1899,1970,"petersburg","Pianist","Pupil of Nikolaev; fearless even before Stalin","Maria_Yudina"],
 ["cherkassky","Cherkassky","Shura Cherkassky",1909,1995,"petersburg","Pianist","Pupil of Hofmann; active performer into his 80s","Shura_Cherkassky"],
 ["sokolov","Sokolov","Grigory Sokolov",1950,null,"petersburg","Pianist","Reclusive master from the Leningrad school","Grigory_Sokolov"],
-
-// === FRENCH SCHOOL ===
 ["cortot","Cortot","Alfred Cortot",1877,1962,"french","Pianist / pedagogue","Master of Chopin and Schumann interpretation","Alfred_Cortot"],
 ["m_long","Long","Marguerite Long",1874,1966,"french","Pedagogue","Central figure in French piano pedagogy","Marguerite_Long"],
 ["meyer","Meyer","Marcelle Meyer",1897,1958,"french","Pianist","Studied with Cortot; famed for Scarlatti recordings","Marcelle_Meyer"],
@@ -172,8 +173,6 @@ const P=[
 ["francois","François","Samson François",1924,1970,"french","Pianist","Pupil of Cortot; master of Debussy, Ravel, Prokofiev","Samson_François"],
 ["ciani","Ciani","Dino Ciani",1941,1974,"french","Pianist","Studied with Cortot; tragically killed at 33","Dino_Ciani"],
 ["ciccolini","Ciccolini","Aldo Ciccolini",1925,2015,"french","Pianist","Studied with Long; Satie and Debussy specialist","Aldo_Ciccolini"],
-
-// === GERMAN-AUSTRIAN ===
 ["busoni","Busoni","Ferruccio Busoni",1866,1924,"italian","Composer / pianist","Famous for Bach-Busoni transcriptions","Ferruccio_Busoni"],
 ["godowsky","Godowsky","Leopold Godowsky",1870,1938,"german","Pianist / composer","Superhuman technique","Leopold_Godowsky"],
 ["leimer","Leimer","Karl Leimer",1858,1944,"german","Pedagogue","Teacher of Gieseking","Karl_Leimer"],
@@ -186,33 +185,25 @@ const P=[
 ["gulda","Gulda","Friedrich Gulda",1930,2000,"german","Pianist","Pupil of Seidlhofer; maverick who bridged classical and jazz","Friedrich_Gulda"],
 ["brendel","Brendel","Alfred Brendel",1931,null,"german","Pianist","Studied with E. Fischer; Beethoven and Schubert authority","Alfred_Brendel"],
 ["argerich","Argerich","Martha Argerich",1941,null,"german","Pianist","Studied with Gulda and Michelangeli; volcanic temperament","Martha_Argerich"],
-
-// === LESCHETIZKY LINEAGE ===
 ["schnabel","Schnabel","Artur Schnabel",1882,1951,"leschetizky","Pianist","Pupil of Leschetizky; pioneer of complete Beethoven sonata recordings","Artur_Schnabel"],
 ["friedman","Friedman","Ignaz Friedman",1882,1948,"leschetizky","Pianist","Pupil of Leschetizky; Chopin and Liszt master","Ignaz_Friedman"],
 ["moiseiwitsch","Moiseiwitsch","Benno Moiseiwitsch",1890,1963,"leschetizky","Pianist","Pupil of Leschetizky; renowned Rachmaninoff interpreter","Benno_Moiseiwitsch"],
 ["paderewski","Paderewski","Ignacy Jan Paderewski",1860,1941,"leschetizky","Pianist / statesman","Pupil of Leschetizky; also served as Prime Minister of Poland","Ignacy_Jan_Paderewski"],
 ["gabrilowitsch","Gabrilowitsch","Ossip Gabrilowitsch",1878,1936,"leschetizky","Pianist / conductor","Pupil of Leschetizky; conductor of the Detroit Symphony","Ossip_Gabrilowitsch"],
-["h_mother","Horszowski Mom","Janina Roza Horszowska",1865,1920,"leschetizky","Pedagogue","Pupil of Mikuli; first piano teacher of her son",""],
+["h_mother","Horszowska","Janina Roza Horszowska",1865,1920,"leschetizky","Pedagogue","Pupil of Mikuli; first piano teacher of her son",""],
 ["horszowski","Horszowski","Mieczysław Horszowski",1892,1993,"leschetizky","Pianist","Pupil of Leschetizky; performed publicly for over 80 years","Mieczysław_Horszowski"],
 ["perahia","Perahia","Murray Perahia",1947,null,"leschetizky","Pianist","Pupil of Horszowski at Curtis; renowned for Bach, Mozart, Beethoven","Murray_Perahia"],
-["p_serkin","P. Serkin","Peter Serkin",1947,2020,"leschetizky","Pianist","Pupil of Horszowski at Curtis; son of Rudolf Serkin","Peter_Serkin"],
-  
-// === HUNGARIAN ===
+["p_serkin","P. Serkin","Peter Serkin",1947,2020,"leschetizky","Pianist","Pupil of Horszowski; son of Rudolf Serkin","Peter_Serkin"],
 ["dohnanyi","Dohnányi","Ernő Dohnányi",1877,1960,"hungarian","Composer / pianist","Pupil of Thomán (Liszt line); pillar of Hungarian music","Ernst_von_Dohnányi"],
 ["kadosa","Kadosa","Pál Kadosa",1903,1983,"hungarian","Composer / pedagogue","Liszt Academy professor, teacher of Schiff","Pál_Kadosa"],
 ["nyiregyhazi","Nyiregyházi","Ervin Nyiregyházi",1903,1987,"hungarian","Pianist","Pupil of Dohnányi; legendary prodigy","Ervin_Nyiregyházi"],
 ["cziffra","Cziffra","Georges Cziffra",1921,1994,"hungarian","Pianist","Studied with Dohnányi; legendary Liszt performer","Georges_Cziffra"],
 ["anda","Anda","Géza Anda",1921,1976,"hungarian","Pianist","Studied with Dohnányi and Fischer; Mozart and Bartók master","Géza_Anda"],
 ["schiff","Schiff","András Schiff",1953,null,"hungarian","Pianist","Pupil of Kadosa at Liszt Academy; Bach and Beethoven authority","András_Schiff"],
-
-// === ITALIAN ===
 ["petri","Petri","Egon Petri",1881,1962,"italian","Pianist","Pupil of Busoni; carried the Bach-Busoni tradition","Egon_Petri"],
 ["michelangeli","Michelangeli","Arturo Benedetti Michelangeli",1920,1995,"italian","Pianist","Obsessive perfectionist; master of Debussy and Ravel","Arturo_Benedetti_Michelangeli"],
 ["pollini","Pollini","Maurizio Pollini",1942,2024,"italian","Pianist","Guided by Michelangeli; 1960 Chopin Competition winner","Maurizio_Pollini"],
 ["wild","Wild","Earl Wild",1915,2010,"italian","Pianist","Studied with Petri (Busoni line); last of the Romantic virtuosos","Earl_Wild"],
-
-// === INDEPENDENT ===
 ["bauer","Bauer","Harold Bauer",1873,1951,"independent","Pianist","Originally a violinist; largely self-taught as pianist","Harold_Bauer"],
 ["guerrero","Guerrero","Alberto Guerrero",1886,1959,"independent","Pedagogue","Chilean-Canadian; teacher of Glenn Gould","Alberto_Guerrero"],
 ["gould","Gould","Glenn Gould",1932,1982,"independent","Pianist","Pupil of Guerrero; revolutionary Bach interpreter","Glenn_Gould"],
@@ -220,19 +211,17 @@ const P=[
 ["zimerman","Zimerman","Krystian Zimerman",1956,null,"independent","Pianist","1975 Chopin Competition winner; legendary perfectionist","Krystian_Zimerman"],
 ["nojima","Nojima","Minoru Nojima",1945,null,"independent","Pianist","Japanese pianist; known for Liszt","Minoru_Nojima"],
 ["hess","Hess","Myra Hess",1890,1965,"independent","Pianist","Studied with Matthay (English tradition); wartime National Gallery concerts","Myra_Hess"],
+["r_serkin","R. Serkin","Rudolf Serkin",1903,1991,"independent","Pianist","Studied with Richard Robert in Vienna; longtime Curtis faculty","Rudolf_Serkin"],
 ];
 
 const EDGES=[
-// Roots
 ["beethoven","czerny"],["czerny","liszt"],["czerny","leschetizky"],
 ["chopin","mikuli"],["mikuli","rosenthal"],
-// Liszt branches
 ["liszt","rosenthal"],["liszt","siloti"],["liszt","krause"],["liszt","sauer"],["liszt","d_albert"],["liszt","barth"],["liszt","thoman"],["thoman","dohnanyi"],
 ["barth","rubinstein"],["barth","kempff"],["barth","h_neuhaus"],
 ["d_albert","backhaus"],
 ["siloti","rachmaninoff"],["siloti","kezeradze"],["kezeradze","pogorelich"],
 ["krause","arrau"],["arrau","villa"],
-// Moscow
 ["safonov","j_lhevinne"],["j_lhevinne","r_lhevinne"],["r_lhevinne","van_cliburn"],
 ["blumenfeld","horowitz"],["blumenfeld","grinberg"],
 ["goldenweiser","feinberg"],["goldenweiser","berman"],
@@ -242,29 +231,23 @@ const EDGES=[
 ["naumov","sultanov"],["naumov","babayan"],
 ["babayan","trifonov"],
 ["oborin","ashkenazy"],["flier","pletnev"],["s_neuhaus","lupu"],
-// Leschetizky
 ["leschetizky","friedman"],["leschetizky","moiseiwitsch"],["leschetizky","schnabel"],
 ["leschetizky","paderewski"],["leschetizky","gabrilowitsch"],["leschetizky","horszowski"],
-// German-Austrian
+["mikuli","h_mother"],["h_mother","horszowski"],
+["horszowski","perahia"],["horszowski","p_serkin"],
+["r_serkin","p_serkin"],
 ["godowsky","saperton"],["godowsky","bolet"],["saperton","katchen"],
 ["rosenthal","bolet"],
 ["leimer","gieseking"],
 ["e_fischer","brendel"],["e_fischer","anda"],
 ["seidlhofer","gulda"],["gulda","argerich"],
-// Italian
 ["busoni","petri"],["petri","wild"],
 ["michelangeli","pollini"],
-// French
 ["cortot","francois"],["cortot","lipatti"],["cortot","meyer"],["cortot","ciani"],
 ["m_long","ciccolini"],
-// Hungarian
-["dohnanyi","cziffra"],["dohnanyi","anda"],["kadosa","schiff"],
-// St. Petersburg
+["dohnanyi","cziffra"],["dohnanyi","anda"],["dohnanyi","nyiregyhazi"],["kadosa","schiff"],
 ["a_rubinstein","hofmann"],["hofmann","cherkassky"],
-// Independent
-["guerrero","gould"], ["mikuli","h_mother"],["h_mother","horszowski"],
-["horszowski","perahia"],["horszowski","p_serkin"],
-["dohnanyi","nyiregyhazi"],
+["guerrero","gould"],
 ];
 
 const ERAS=[
@@ -285,14 +268,16 @@ const grouped=ERAS.map(()=>[]);
 pList.forEach(p=>grouped[eraIdx(p.birth)].push(p));
 grouped.forEach(a=>a.sort((a,b)=>a.birth-b.birth));
 
+// Use full available width
+const W=1300;
 const pos={};
-const rowH=96,startY=64;
+const rowH=100,startY=68;
 grouped.forEach((era,ei)=>{
   const y=startY+ei*rowH,n=era.length;
-  const sp=Math.min(66,670/(n+1));
+  const sp=Math.min(80,(W-40)/(n));
   const tw=sp*(n-1);
-  const sx=Math.max(16,(700-tw)/2);
-  era.forEach((p,i)=>{pos[p.id]={x:sx+i*sp,y:y+(i%2===0?0:20)};});
+  const sx=Math.max(20,(W-tw)/2);
+  era.forEach((p,i)=>{pos[p.id]={x:sx+i*sp,y:y+(i%2===0?0:22)};});
 });
 const svgH=startY+ERAS.length*rowH+40;
 
@@ -315,7 +300,8 @@ async function fetchPhoto(wiki){
 
 function render(){
   const svg=document.getElementById("chart");
-  svg.setAttribute("viewBox","0 0 700 "+svgH);
+  svg.setAttribute("viewBox","0 0 "+W+" "+svgH);
+  svg.style.width="100%";
   const conn=selected?getConn(selected):{teachers:new Set(),students:new Set(),edges:[]};
   const cSet=new Set([...conn.teachers,...conn.students]);
   if(selected)cSet.add(selected);
@@ -323,9 +309,9 @@ function render(){
   let h='<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>';
 
   ERAS.forEach((era,i)=>{
-    const y=54+i*rowH;
-    h+=`<line x1="10" y1="${y-22}" x2="690" y2="${y-22}" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4 4"/>`;
-    h+=`<text x="12" y="${y-8}" font-size="10" fill="var(--text3)" font-weight="500" font-family="var(--font)">${era[0]}</text>`;
+    const y=58+i*rowH;
+    h+=`<line x1="10" y1="${y-22}" x2="${W-10}" y2="${y-22}" stroke="#a2a9b1" stroke-width="0.5" stroke-dasharray="4 4"/>`;
+    h+=`<text x="12" y="${y-8}" font-size="11" fill="#54595d" font-weight="bold" font-family="Helvetica Neue,Helvetica,Arial,sans-serif">${era[0]}</text>`;
   });
 
   EDGES.forEach(e=>{
@@ -333,15 +319,16 @@ function render(){
     const isHL=selected&&conn.edges.some(ce=>ce[0]===e[0]&&ce[1]===e[1]);
     const sm=activeSchool&&(pianists[e[0]]?.school===activeSchool||pianists[e[1]]?.school===activeSchool);
     let op,col,sw;
-    if(selected){op=isHL?.75:.03;col=isHL?(SCHOOLS[pianists[e[0]].school]?.c||"#888"):"var(--text3)";sw=isHL?1.8:.4;}
-    else if(activeSchool){op=sm?.5:.04;col=sm?(SCHOOLS[pianists[e[0]].school]?.c||"#888"):"var(--text3)";sw=sm?1.2:.4;}
-    else{op=.13;col="var(--text3)";sw=.5;}
+    if(selected){op=isHL?.8:.03;col=isHL?(SCHOOLS[pianists[e[0]].school]?.c||"#888"):"#ccc";sw=isHL?2:.4;}
+    else if(activeSchool){op=sm?.55:.04;col=sm?(SCHOOLS[pianists[e[0]].school]?.c||"#888"):"#ccc";sw=sm?1.2:.4;}
+    else{op=.15;col="#888";sw=.5;}
     const mx=(f.x+t.x)/2,my=(f.y+t.y)/2,dx=t.x-f.x;
-    const bend=Math.abs(dx)>200?(dx>0?-15:15):0;
+    const bend=Math.abs(dx)>250?(dx>0?-18:18):0;
     const mk=isHL?' marker-end="url(#ah)"':'';
     h+=`<path d="M${f.x} ${f.y} Q${mx+bend} ${my} ${t.x} ${t.y}" fill="none" stroke="${col}" stroke-width="${sw}" opacity="${op}"${mk}/>`;
   });
 
+  // Square nodes
   pList.forEach(p=>{
     const xy=pos[p.id];if(!xy)return;
     const isSel=p.id===selected,isC=cSet.has(p.id),sc=SCHOOLS[p.school];
@@ -350,11 +337,12 @@ function render(){
     else if(selected){op=isC?1:.1;}
     else if(activeSchool){op=p.school===activeSchool?1:.1;}
     else{op=1;}
-    const r=isSel?10:(selected&&isC&&!isSel)?8:5.5;
+    const sz=isSel?16:(selected&&isC&&!isSel)?14:10;
+    const half=sz/2;
     h+=`<g onclick="sel('${p.id}')" style="cursor:pointer" opacity="${op}">`;
-    if(isSel)h+=`<circle cx="${xy.x}" cy="${xy.y}" r="${r+4}" fill="${sc.c}" opacity="0.15"/>`;
-    h+=`<circle cx="${xy.x}" cy="${xy.y}" r="${r}" fill="${sc.c}" stroke="${isSel?sc.t:'none'}" stroke-width="${isSel?2:0}"/>`;
-    h+=`<text x="${xy.x}" y="${xy.y+r+11}" text-anchor="middle" font-size="9" font-weight="${isSel||(selected&&isC)?600:400}" fill="${isSel||(selected&&isC)?'var(--text)':'var(--text2)'}" font-family="var(--font)">${p.name}</text>`;
+    if(isSel)h+=`<rect x="${xy.x-half-3}" y="${xy.y-half-3}" width="${sz+6}" height="${sz+6}" fill="${sc.c}" opacity="0.15"/>`;
+    h+=`<rect x="${xy.x-half}" y="${xy.y-half}" width="${sz}" height="${sz}" fill="${sc.c}" stroke="${isSel?'#000':'none'}" stroke-width="${isSel?1.5:0}"/>`;
+    h+=`<text x="${xy.x}" y="${xy.y+half+12}" text-anchor="middle" font-size="10" font-weight="${isSel||(selected&&isC)?'bold':'normal'}" fill="${isSel||(selected&&isC)?'#000':'#202122'}" font-family="Helvetica Neue,Helvetica,Arial,sans-serif">${p.name}</text>`;
     h+='</g>';
   });
   svg.innerHTML=h;
@@ -366,8 +354,8 @@ async function renderInfo(conn){
   if(!selected){panel.classList.remove("show");return;}
   const sp=pianists[selected],sc=SCHOOLS[sp.school];
   let h=`<div class="info-top"><img class="info-photo" id="pp" alt=""><div class="info-body">`;
-  h+=`<div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span class="info-name">${sp.full}</span>`;
-  h+=`<span class="info-badge-s" style="background:${sc.bg};color:${sc.t}">${sc.name}</span></div>`;
+  h+=`<div><span class="info-name">${sp.full}</span>`;
+  h+=`<span class="info-badge-s" style="background:${sc.bg};color:${sc.t};border-color:${sc.c}">${sc.name}</span></div>`;
   h+=`<div class="info-meta">${sp.birth}–${sp.death||"present"} · ${sp.role}</div>`;
   h+=`<div class="info-note">${sp.note}</div>`;
   if(conn.teachers.size>0||conn.students.size>0){
@@ -384,7 +372,6 @@ async function renderInfo(conn){
 
 function sel(id){
   selected=(selected===id)?null:id;
-  // Clear school filter when selecting a pianist
   activeSchool=null;
   document.querySelectorAll(".badge").forEach(b=>b.classList.remove("active"));
   if(!selected)document.getElementById("clearBtn").classList.remove("show");
@@ -411,7 +398,7 @@ function toggleSchool(key,el){
 const bc=document.getElementById("badges");
 Object.entries(SCHOOLS).forEach(([key,s])=>{
   const sp=document.createElement("span");
-  sp.className="badge";sp.textContent=s.name;sp.style.background=s.bg;sp.style.color=s.t;
+  sp.className="badge";sp.textContent=s.name;
   sp.onclick=function(){toggleSchool(key,this);};
   bc.appendChild(sp);
 });
